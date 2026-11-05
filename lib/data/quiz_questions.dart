@@ -1,0 +1,136 @@
+import '../models/quiz_question.dart';
+
+/// Add, edit, or remove questions here. Option IDs must be unique per question.
+/// correctOptionId must match one of the option IDs.
+const List<QuizQuestion> quizQuestions = [
+  QuizQuestion(
+    id: 'computer-001', category: 'Computer Basics',
+    question: 'Which device helps us type letters and words?',
+    illustration: '⌨️',
+    options: [
+      QuizOption(id: 'a', label: 'Mouse', emoji: '🖱️'),
+      QuizOption(id: 'b', label: 'Keyboard', emoji: '⌨️'),
+      QuizOption(id: 'c', label: 'Monitor', emoji: '🖥️'),
+      QuizOption(id: 'd', label: 'Speaker', emoji: '🔊'),
+    ],
+    correctOptionId: 'b',
+    explanation: 'A keyboard has keys that help us type letters and numbers.',
+  ),
+  QuizQuestion(
+    id: 'computer-002', category: 'Computer Parts',
+    question: 'What do we use to see pictures on a computer?',
+    illustration: '🖥️',
+    options: [
+      QuizOption(id: 'a', label: 'Monitor', emoji: '🖥️'),
+      QuizOption(id: 'b', label: 'Mouse', emoji: '🖱️'),
+      QuizOption(id: 'c', label: 'Printer', emoji: '🖨️'),
+      QuizOption(id: 'd', label: 'Keyboard', emoji: '⌨️'),
+    ],
+    correctOptionId: 'a',
+    explanation: 'The monitor is the screen that shows pictures and words.',
+  ),
+  QuizQuestion(
+    id: 'computer-003', category: 'Computer Parts',
+    question: 'Which part helps us move the pointer on the screen?',
+    illustration: '🖱️',
+    options: [
+      QuizOption(id: 'a', label: 'Speaker', emoji: '🔊'),
+      QuizOption(id: 'b', label: 'Printer', emoji: '🖨️'),
+      QuizOption(id: 'c', label: 'Mouse', emoji: '🖱️'),
+      QuizOption(id: 'd', label: 'Monitor', emoji: '🖥️'),
+    ],
+    correctOptionId: 'c',
+    explanation: 'We move the mouse to move the pointer on the screen.',
+  ),
+  QuizQuestion(
+    id: 'computer-004', category: 'Computer Uses',
+    question: 'Which machine can print our pictures on paper?',
+    illustration: '🖨️',
+    options: [
+      QuizOption(id: 'a', label: 'Keyboard', emoji: '⌨️'),
+      QuizOption(id: 'b', label: 'Printer', emoji: '🖨️'),
+      QuizOption(id: 'c', label: 'Mouse', emoji: '🖱️'),
+      QuizOption(id: 'd', label: 'Webcam', emoji: '📷'),
+    ],
+    correctOptionId: 'b',
+    explanation: 'A printer puts words and pictures onto paper.',
+  ),
+  QuizQuestion(
+    id: 'computer-005', category: 'Computer Basics',
+    question: 'What is the brain of the computer often called?',
+    illustration: '🧠',
+    options: [
+      QuizOption(id: 'a', label: 'CPU', emoji: '🧠'),
+      QuizOption(id: 'b', label: 'Mouse', emoji: '🖱️'),
+      QuizOption(id: 'c', label: 'Monitor', emoji: '🖥️'),
+      QuizOption(id: 'd', label: 'Speaker', emoji: '🔊'),
+    ],
+    correctOptionId: 'a',
+    explanation: 'The CPU processes instructions and helps the computer work.',
+  ),
+  QuizQuestion(
+    id: 'computer-006', category: 'Computer Uses',
+    question: 'Which device helps us listen to sounds from a computer?',
+    illustration: '🎵',
+    options: [
+      QuizOption(id: 'a', label: 'Scanner', emoji: '📄'),
+      QuizOption(id: 'b', label: 'Keyboard', emoji: '⌨️'),
+      QuizOption(id: 'c', label: 'Speaker', emoji: '🔊'),
+      QuizOption(id: 'd', label: 'Mouse', emoji: '🖱️'),
+    ],
+    correctOptionId: 'c',
+    explanation: 'Speakers play music, voices, and other sounds.',
+  ),
+  QuizQuestion(
+    id: 'computer-007', category: 'Computer Safety',
+    question: 'What should you do before switching off a computer?',
+    illustration: '🔌',
+    options: [
+      QuizOption(id: 'a', label: 'Pull the cable', emoji: '🔌'),
+      QuizOption(id: 'b', label: 'Shut it down safely', emoji: '⏻'),
+      QuizOption(id: 'c', label: 'Pour water on it', emoji: '💧'),
+      QuizOption(id: 'd', label: 'Hit the keyboard', emoji: '⌨️'),
+    ],
+    correctOptionId: 'b',
+    explanation: 'Use the shutdown option to turn off a computer safely.',
+  ),
+  QuizQuestion(
+    id: 'computer-008', category: 'Computer Parts',
+    question: 'Which device can take your photo on a computer?',
+    illustration: '📷',
+    options: [
+      QuizOption(id: 'a', label: 'Printer', emoji: '🖨️'),
+      QuizOption(id: 'b', label: 'Speaker', emoji: '🔊'),
+      QuizOption(id: 'c', label: 'Webcam', emoji: '📷'),
+      QuizOption(id: 'd', label: 'Keyboard', emoji: '⌨️'),
+    ],
+    correctOptionId: 'c',
+    explanation: 'A webcam is a small camera that can capture your picture.',
+  ),
+  QuizQuestion(
+    id: 'computer-009', category: 'Computer Basics',
+    question: 'Which of these can store files and travel in your bag?',
+    illustration: '💾',
+    options: [
+      QuizOption(id: 'a', label: 'USB drive', emoji: '💾'),
+      QuizOption(id: 'b', label: 'Monitor', emoji: '🖥️'),
+      QuizOption(id: 'c', label: 'Mouse pad', emoji: '🟦'),
+      QuizOption(id: 'd', label: 'Speaker', emoji: '🔊'),
+    ],
+    correctOptionId: 'a',
+    explanation: 'A USB drive stores files and can be carried between computers.',
+  ),
+  QuizQuestion(
+    id: 'computer-010', category: 'Computer Basics',
+    question: 'Which one is a computer?',
+    illustration: '💻',
+    options: [
+      QuizOption(id: 'a', label: 'Bicycle', emoji: '🚲'),
+      QuizOption(id: 'b', label: 'Laptop', emoji: '💻'),
+      QuizOption(id: 'c', label: 'Football', emoji: '⚽'),
+      QuizOption(id: 'd', label: 'Water bottle', emoji: '🧴'),
+    ],
+    correctOptionId: 'b',
+    explanation: 'A laptop is a portable computer.',
+  ),
+];
