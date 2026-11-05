@@ -252,9 +252,11 @@ class _Welcome extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 22),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         const _Brand(), const SizedBox(height: 32),
-        Container(width: narrow ? 150 : 185, height: narrow ? 150 : 185,
-          decoration: BoxDecoration(color: const Color(0xFFEDE9FF), borderRadius: BorderRadius.circular(52)),
-          child: const Center(child: Text('🖥️', style: TextStyle(fontSize: 96)))),
+        _AnimatedIllustration(
+          emoji: '🖥️',
+          size: narrow ? 150 : 185,
+          hero: true,
+        ),
         const SizedBox(height: 25),
         Text('Ready to click\nyour way to fun?', textAlign: TextAlign.center,
           style: TextStyle(color: C.ink, fontSize: narrow ? 35 : 48, fontWeight: FontWeight.w900, height: 1.08)),
@@ -287,6 +289,128 @@ class _FeatureChip extends StatelessWidget {
   );
 }
 
+class _AnimatedIllustration extends StatefulWidget {
+  const _AnimatedIllustration({
+    required this.emoji,
+    required this.size,
+    this.hero = false,
+  });
+
+  final String emoji;
+  final double size;
+  final bool hero;
+
+  @override
+  State<_AnimatedIllustration> createState() => _AnimatedIllustrationState();
+}
+
+class _AnimatedIllustrationState extends State<_AnimatedIllustration>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: widget.hero ? 1900 : 1550),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final radius = widget.hero ? 48.0 : 22.0;
+    return SizedBox(
+      width: widget.size,
+      height: widget.size,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final t = Curves.easeInOut.transform(_controller.value);
+          final float = math.sin(t * math.pi) * (widget.hero ? 9 : 5);
+          final turn = (t - .5) * (widget.hero ? .055 : .035);
+          return Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: widget.size,
+                height: widget.size,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEDE9FF),
+                  borderRadius: BorderRadius.circular(radius),
+                ),
+              ),
+              Positioned(
+                top: widget.size * .12,
+                right: widget.size * .12,
+                child: Transform.rotate(
+                  angle: t * .45,
+                  child: Icon(
+                    Icons.auto_awesome_rounded,
+                    size: widget.hero ? 25 : 13,
+                    color: C.yellow,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: widget.size * .16,
+                left: widget.size * .12,
+                child: Transform.scale(
+                  scale: .8 + (t * .25),
+                  child: Icon(
+                    Icons.star_rounded,
+                    size: widget.hero ? 23 : 12,
+                    color: C.coral,
+                  ),
+                ),
+              ),
+              Transform.translate(
+                offset: Offset(0, -float),
+                child: Transform.rotate(
+                  angle: turn,
+                  child: Text(
+                    widget.emoji,
+                    style: TextStyle(fontSize: widget.size * (widget.hero ? .52 : .57)),
+                  ),
+                ),
+              ),
+              if (widget.hero)
+                Positioned(
+                  bottom: widget.size * .12,
+                  right: widget.size * .10,
+                  child: Transform.translate(
+                    offset: Offset(0, float * .55),
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: C.mint,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 3),
+                      ),
+                      child: const Icon(
+                        Icons.check_rounded,
+                        color: C.ink,
+                        size: 17,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _QuestionPanel extends StatelessWidget {
   const _QuestionPanel({required this.question, required this.compact});
   final QuizQuestion question; final bool compact;
@@ -302,7 +426,10 @@ class _QuestionPanel extends StatelessWidget {
         decoration: BoxDecoration(color: const Color(0xFFEDE9FF), borderRadius: BorderRadius.circular(30)),
         child: Text(question.category.toUpperCase(), style: const TextStyle(color: C.purple, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1))),
       SizedBox(height: compact ? 8 : 12),
-      Text(question.illustration, style: TextStyle(fontSize: compact ? 38 : 47)),
+      _AnimatedIllustration(
+        emoji: question.illustration,
+        size: compact ? 62 : 76,
+      ),
       SizedBox(height: compact ? 7 : 11),
       Text(question.question, textAlign: TextAlign.center,
         style: TextStyle(color: C.ink, fontSize: compact ? 20 : 25, fontWeight: FontWeight.w900, height: 1.2)),
