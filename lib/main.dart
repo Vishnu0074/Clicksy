@@ -459,7 +459,7 @@ class _ConfettiPainter extends CustomPainter {
       canvas.save();
       canvas.translate(startX + drift * progress, startY + fall);
       canvas.rotate(progress * (random.nextDouble() * 8 - 4));
-      final paint = Paint()..color = colors[i % colors.length].withValues(alpha: (1 - progress * .25).clamp(0.0, 1.0));
+      final paint = Paint()..color = colors[i % colors.length].withValues(alpha: (1 - progress * .25).clamp(0.0, 1.0).toDouble());
       canvas.drawRRect(RRect.fromRectAndRadius(
         Rect.fromCenter(center: Offset.zero, width: 8 + (i % 3) * 2, height: 12 + (i % 4) * 2),
         const Radius.circular(2)), paint);
