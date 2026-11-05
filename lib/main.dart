@@ -91,10 +91,7 @@ class _ClicksyHomeState extends State<ClicksyHome> {
             switchInCurve: Curves.easeOutBack,
             transitionBuilder: (child, animation) => FadeTransition(
               opacity: animation,
-              child: SlideTransition(
-                position: Tween<Offset>(begin: const Offset(.04, .02), end: Offset.zero).animate(animation),
-                child: child,
-              ),
+              child: child,
             ),
             child: !started
               ? _Welcome(key: const ValueKey('welcome'), onStart: startGame)
@@ -126,7 +123,10 @@ class _ClicksyHomeState extends State<ClicksyHome> {
         return SingleChildScrollView(child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: box.maxHeight),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _QuestionPanel(question: q, compact: compact),
+            _ElasticEntrance(
+              key: ValueKey('${q.id}-panel'),
+              child: _QuestionPanel(question: q, compact: compact),
+            ),
             const SizedBox(height: 15),
             LayoutBuilder(builder: (context, constraints) {
               final cols = constraints.maxWidth < 560 ? 1 : 2;
@@ -134,11 +134,15 @@ class _ClicksyHomeState extends State<ClicksyHome> {
               return Wrap(spacing: 14, runSpacing: 12, children: List.generate(q.options.length, (i) {
                 final option = q.options[i];
                 final isSelected = selected == option.id;
-                return SizedBox(width: width, child: _AnswerCard(
-                  label: option.label, emoji: option.emoji,
-                  letter: String.fromCharCode(65 + i), tint: tints[i % tints.length],
-                  state: isSelected ? (correct ? _AnswerState.correct : _AnswerState.wrong) : _AnswerState.idle,
-                  enabled: !correct, onTap: () => choose(option.id),
+                return SizedBox(width: width, child: _ElasticEntrance(
+                  key: ValueKey('${q.id}-option-${option.id}'),
+                  delay: Duration(milliseconds: 90 + (i * 85)),
+                  child: _AnswerCard(
+                    label: option.label, emoji: option.emoji,
+                    letter: String.fromCharCode(65 + i), tint: tints[i % tints.length],
+                    state: isSelected ? (correct ? _AnswerState.correct : _AnswerState.wrong) : _AnswerState.idle,
+                    enabled: !correct, onTap: () => choose(option.id),
+                  ),
                 ));
               }));
             }),
@@ -146,21 +150,29 @@ class _ClicksyHomeState extends State<ClicksyHome> {
             AnimatedSwitcher(duration: const Duration(milliseconds: 220),
               child: feedback == null
                 ? const SizedBox(height: 40, key: ValueKey('empty'))
-                : Container(key: ValueKey(feedback), width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-                    decoration: BoxDecoration(
-                      color: correct ? const Color(0xFFE1F8EC) : const Color(0xFFFFF0D8),
-                      borderRadius: BorderRadius.circular(14)),
-                    child: Text((correct ? '🎉 Brilliant! ' : '💪 ') + feedback!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: correct ? const Color(0xFF167849) : const Color(0xFF966015), fontWeight: FontWeight.w900, fontSize: 13)),
+                : _ElasticEntrance(
+                    key: ValueKey('${q.id}-feedback'),
+                    delay: const Duration(milliseconds: 330),
+                    child: Container(width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                      decoration: BoxDecoration(
+                        color: correct ? const Color(0xFFE1F8EC) : const Color(0xFFFFF0D8),
+                        borderRadius: BorderRadius.circular(14)),
+                      child: Text((correct ? '🎉 Brilliant! ' : '💪 ') + feedback!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: correct ? const Color(0xFF167849) : const Color(0xFF966015), fontWeight: FontWeight.w900, fontSize: 13)),
+                    ),
                   ),
             ),
             const SizedBox(height: 12),
-            _BigButton(
-              label: index == quizQuestions.length - 1 ? 'See my score!' : 'Next question',
-              icon: index == quizQuestions.length - 1 ? Icons.emoji_events_rounded : Icons.arrow_forward_rounded,
-              enabled: correct, onTap: next,
+            _ElasticEntrance(
+              key: ValueKey('${q.id}-next'),
+              delay: const Duration(milliseconds: 430),
+              child: _BigButton(
+                label: index == quizQuestions.length - 1 ? 'See my score!' : 'Next question',
+                icon: index == quizQuestions.length - 1 ? Icons.emoji_events_rounded : Icons.arrow_forward_rounded,
+                enabled: correct, onTap: next,
+              ),
             ),
             const SizedBox(height: 8),
           ]),
@@ -186,6 +198,172 @@ class _Bubble extends StatelessWidget {
   final double size; final Color color;
   @override
   Widget build(BuildContext context) => Container(width: size, height: size, decoration: BoxDecoration(color: color, shape: BoxShape.circle));
+}
+
+class _MonitorIllustration extends StatelessWidget {
+  const _MonitorIllustration({required this.size});
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: size,
+    height: size,
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: size * .94,
+          height: size * .78,
+          decoration: BoxDecoration(
+            color: const Color(0xFFEDE9FF),
+            borderRadius: BorderRadius.circular(size * .25),
+          ),
+        ),
+        Positioned(
+          top: size * .15,
+          child: Container(
+            width: size * .76,
+            height: size * .52,
+            padding: EdgeInsets.all(size * .045),
+            decoration: BoxDecoration(
+              color: C.ink,
+              borderRadius: BorderRadius.circular(size * .10),
+              border: Border.all(color: Colors.white, width: size * .035),
+              boxShadow: [
+                BoxShadow(color: C.ink.withValues(alpha: .18), blurRadius: 15, offset: const Offset(0, 7)),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(size * .045),
+              child: Container(
+                color: const Color(0xFFF7F4FF),
+                padding: EdgeInsets.all(size * .07),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      _monitorDot(C.coral, size),
+                      SizedBox(width: size * .025),
+                      _monitorDot(C.yellow, size),
+                      SizedBox(width: size * .025),
+                      _monitorDot(C.mint, size),
+                    ]),
+                    const Spacer(),
+                    Container(width: size * .34, height: size * .055,
+                      decoration: BoxDecoration(color: C.purple, borderRadius: BorderRadius.circular(20))),
+                    SizedBox(height: size * .045),
+                    Row(children: [
+                      Expanded(child: Container(height: size * .12,
+                        decoration: BoxDecoration(color: C.sky.withValues(alpha: .75), borderRadius: BorderRadius.circular(5)))),
+                      SizedBox(width: size * .045),
+                      Expanded(child: Container(height: size * .12,
+                        decoration: BoxDecoration(color: C.yellow.withValues(alpha: .9), borderRadius: BorderRadius.circular(5)))),
+                    ]),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: size * .68,
+          child: Container(width: size * .13, height: size * .13, color: const Color(0xFF8B86B5)),
+        ),
+        Positioned(
+          bottom: size * .12,
+          child: Container(
+            width: size * .32,
+            height: size * .055,
+            decoration: BoxDecoration(color: const Color(0xFF8B86B5), borderRadius: BorderRadius.circular(20)),
+          ),
+        ),
+        Positioned(
+          top: size * .08,
+          right: size * .08,
+          child: Icon(Icons.auto_awesome_rounded, size: size * .14, color: C.yellow),
+        ),
+      ],
+    ),
+  );
+
+  Widget _monitorDot(Color color, double size) => Container(
+    width: size * .045,
+    height: size * .045,
+    decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+  );
+}
+
+class _QuestionMarkIllustration extends StatelessWidget {
+  const _QuestionMarkIllustration({required this.size});
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      color: const Color(0xFFEDE9FF),
+      borderRadius: BorderRadius.circular(size * .29),
+    ),
+    child: Icon(Icons.quiz_rounded, size: size * .62, color: C.purple),
+  );
+}
+
+class _ElasticEntrance extends StatefulWidget {
+  const _ElasticEntrance({
+    super.key,
+    required this.child,
+    this.delay = Duration.zero,
+  });
+
+  final Widget child;
+  final Duration delay;
+
+  @override
+  State<_ElasticEntrance> createState() => _ElasticEntranceState();
+}
+
+class _ElasticEntranceState extends State<_ElasticEntrance>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<Offset> _slide;
+  late final Animation<double> _fade;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1050),
+    );
+    _slide = Tween<Offset>(
+      begin: const Offset(1.15, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
+    _fade = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0, .48, curve: Curves.easeOut),
+    );
+    if (widget.delay == Duration.zero) {
+      _controller.forward();
+    } else {
+      Future<void>.delayed(widget.delay, () {
+        if (mounted) _controller.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => FadeTransition(
+    opacity: _fade,
+    child: SlideTransition(position: _slide, child: widget.child),
+  );
 }
 
 class _Brand extends StatelessWidget {
@@ -252,11 +430,7 @@ class _Welcome extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 22),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         const _Brand(), const SizedBox(height: 32),
-        _AnimatedIllustration(
-          emoji: '🖥️',
-          size: narrow ? 150 : 185,
-          hero: true,
-        ),
+        _MonitorIllustration(size: narrow ? 150 : 185),
         const SizedBox(height: 25),
         Text('Ready to click\nyour way to fun?', textAlign: TextAlign.center,
           style: TextStyle(color: C.ink, fontSize: narrow ? 35 : 48, fontWeight: FontWeight.w900, height: 1.08)),
@@ -426,10 +600,7 @@ class _QuestionPanel extends StatelessWidget {
         decoration: BoxDecoration(color: const Color(0xFFEDE9FF), borderRadius: BorderRadius.circular(30)),
         child: Text(question.category.toUpperCase(), style: const TextStyle(color: C.purple, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1))),
       SizedBox(height: compact ? 8 : 12),
-      _AnimatedIllustration(
-        emoji: question.illustration,
-        size: compact ? 62 : 76,
-      ),
+      _QuestionMarkIllustration(size: compact ? 62 : 76),
       SizedBox(height: compact ? 7 : 11),
       Text(question.question, textAlign: TextAlign.center,
         style: TextStyle(color: C.ink, fontSize: compact ? 20 : 25, fontWeight: FontWeight.w900, height: 1.2)),
