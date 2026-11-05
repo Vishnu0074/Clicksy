@@ -27,7 +27,6 @@ class ClicksyApp extends StatelessWidget {
       useMaterial3: true,
       scaffoldBackgroundColor: const Color(0xFFFFFCF5),
       colorScheme: ColorScheme.fromSeed(seedColor: C.purple),
-      fontFamily: 'Nunito',
     ),
     home: const ClicksyHome(),
   );
