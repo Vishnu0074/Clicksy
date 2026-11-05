@@ -64,7 +64,7 @@ class _ClicksyHomeState extends State<ClicksyHome> {
       }
     });
     if (right) {
-      Future<void>.delayed(const Duration(milliseconds: 1300), () {
+      Future<void>.delayed(const Duration(milliseconds: 2300), () {
         if (mounted) setState(() => celebrate = false);
       });
     }
@@ -334,12 +334,12 @@ class _ElasticEntranceState extends State<_ElasticEntrance>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1050),
+      duration: const Duration(milliseconds: 1250),
     );
     _slide = Tween<Offset>(
-      begin: const Offset(1.15, 0),
+      begin: const Offset(0.75, 0),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
     _fade = CurvedAnimation(
       parent: _controller,
       curve: const Interval(0, .48, curve: Curves.easeOut),
@@ -730,7 +730,7 @@ class _ConfettiState extends State<_Confetti> with SingleTickerProviderStateMixi
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1150))..forward();
+    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2100))..forward();
   }
   @override
   void dispose() { controller.dispose(); super.dispose(); }
