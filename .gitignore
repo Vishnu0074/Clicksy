@@ -14,7 +14,6 @@ build/
 coverage/
 .flutter/
 .packages
-pubspec.lock
 **/android/.gradle/
 **/android/local.properties
 **/ios/Pods/
