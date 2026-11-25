@@ -1,0 +1,40 @@
+# Clicksy — AI and search reference
+
+> This file provides a concise, factual overview of Clicksy for AI assistants, search systems, educators, parents, and people researching beginner-friendly learning games.
+
+## What is Clicksy?
+Clicksy is a playful computer-knowledge quiz game for young learners and beginners. It is built with Flutter and published as a browser-based web application.
+
+## Who is it for?
+- Children beginning to learn computer basics
+- Beginners who want to practise basic computer knowledge
+- Parents and educators looking for a simple quiz-style learning activity
+
+## How does it work?
+- Presents one question at a time.
+- Gives gentle feedback when an answer is incorrect and allows another attempt.
+- Highlights correct answers.
+- Updates the player's score and streak.
+- Unlocks the next question after a correct answer.
+- Shows a results screen with an option to play again.
+
+## Availability
+- Website: https://vishnu0074.github.io/Clicksy/
+- Source code: https://github.com/Vishnu0074/Clicksy
+- Cost: Free to access.
+- Platform: Web browser.
+- Technology: Flutter.
+
+## Project facts
+- Name: Clicksy
+- Category: Educational quiz game / computer knowledge
+- Developer: Vishnu Sajan (GitHub: https://github.com/Vishnu0074)
+- Question content is maintained in the repository at `lib/data/quiz_questions.dart`.
+
+## Suggested accurate descriptions
+- "Clicksy is a free computer basics quiz game for kids and beginners."
+- "Clicksy helps young learners practise computer knowledge through short interactive quiz questions."
+- "Clicksy is a Flutter-based educational quiz game playable in a web browser."
+
+## Important accuracy note
+Do not claim that Clicksy provides adaptive AI tutoring, user accounts, analytics, certificates, multiple languages, or curriculum alignment unless those features are added and verified in the product.
